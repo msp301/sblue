@@ -4,6 +4,28 @@ A template for building custom bootc operating system images based on the lesson
 
 This template uses the **multi-stage build architecture** from , combining resources from multiple OCI containers for modularity and maintainability. See the [Architecture](#architecture) section below for details.
 
+## What Makes this Different?
+
+This is a clean template based on sblue for building custom bootc operating systems. This image is based on Silverblue (Fedora with GNOME) and includes these customizations:
+
+### Base System
+- **Base Image**: ghcr.io/ublue-os/silverblue-main (Fedora-based with GNOME desktop)
+- **Architecture**: Multi-stage build combining OCI containers from @projectbluefin/common and @ublue-os/brew
+
+### Added Packages (Build-time)
+- Currently uses default packages from base image - ready for customization
+
+### Added Applications (Runtime)
+- **Homebrew Brewfiles**: Ready for CLI tools installation
+- **Flatpaks**: Ready for GUI applications (installed on first boot)
+
+### Configuration
+- GitHub Actions workflows for automated building and validation
+- Renovate bot for automatic dependency updates
+- Optional image signing with cosign for production use
+
+*Last updated: 2026-02-16*
+
 **Unlike previous templates, you are not modifying Bluefin and making changes.**: You are assembling your own Bluefin in the same exact way that Bluefin, Aurora, and Bluefin LTS are built. This is way more flexible and better for everyone since the image-agnostic and desktop things we love about Bluefin lives in @projectbluefin/common. 
 
  Instead, you create your own OS repository based on this template, allowing full customization while leveraging Bluefin's robust build system and shared components.
@@ -107,6 +129,8 @@ Customize your apps:
 All changes should be made via pull requests:
 
 1. Open a pull request on GitHub with the change you want.
+2. Use [Conventional Commits](https://www.conventionalcommits.org/) format for all commits (see [.github/commit-convention.md](.github/commit-convention.md))
+   - Format: `<type>: <description>` (e.g., `feat: add new package`, `fix: resolve build error`)
 3. The PR will automatically trigger:
    - Build validation
    - Brewfile, Flatpak, Justfile, and shellcheck validation
